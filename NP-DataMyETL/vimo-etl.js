@@ -66,11 +66,11 @@ $(() => {
   }
 
   const buildDataTree = (data) => {
-    const dataTree = {
+    const rootNode = {
       text: 'Root',
       value: '',
       childrens: [],
-    }; // dataTree: Tree
+    }; // rootNode: Tree
 
     const mapTree = {}; // mapTree: {[tree_key: 'folder 1 ~ sub-folder ~ ...']: index_number}
 
@@ -82,7 +82,7 @@ $(() => {
       if (arr.length > 0) {
         const keys = [];
 
-        let currentTree = dataTree;
+        let currentNode = rootNode;
 
         for(const element of arr) {
           keys.push(element.trim());
@@ -94,17 +94,17 @@ $(() => {
               childrens: [],
             };
 
-            currentTree.childrens.push(tree);
-            mapTree[key] = currentTree.childrens.length - 1;
-            currentTree = tree;
+            currentNode.childrens.push(tree);
+            mapTree[key] = currentNode.childrens.length - 1;
+            currentNode = tree;
           } else {
-            currentTree = currentTree.childrens[mapTree[key]];
+            currentNode = currentNode.childrens[mapTree[key]];
           }
         }
       }
     }
-    sort(dataTree);
-    return dataTree;
+    sort(rootNode);
+    return rootNode;
   }
 
   const buildNode = (li, childrens) => {
